@@ -25,6 +25,18 @@ erDiagram
     TIMESTAMP update_dtm
     VARCHAR(100) update_user
   }
+  
+  t_refresh_token {
+    CHAR(36) id PK "UUID"
+    ENUM owner_type "USER | ADMIN"
+    CHAR(36) owner_id "UUID"
+    VARCHAR(512) token
+    ENUM revoked "Y | N"
+    TIMESTAMP register_dtm
+    VARCHAR(100) register_user
+    TIMESTAMP update_dtm
+    VARCHAR(100) update_user
+  }
 
   t_board {
     CHAR(36) id PK "UUID"

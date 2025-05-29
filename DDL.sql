@@ -41,6 +41,21 @@ CREATE TABLE IF NOT EXISTS `t_admin` (
     `update_user`    VARCHAR(100)  NULL COMMENT '수정자'
     );
 
+
+CREATE TABLE IF NOT EXISTS `t_refresh_token` (
+    `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '토큰 고유 ID',
+    `owner_type`     ENUM('USER', 'ADMIN') NOT NULL COMMENT '토큰 소유자 타입',
+    `owner_id`       CHAR(36)      NOT NULL COMMENT '토큰 소유자 ID',
+    `token`          VARCHAR(512)  NOT NULL COMMENT '리프레시 토큰 값',
+    `expires_at`     TIMESTAMP     NOT NULL COMMENT '토큰 만료 시간',
+    `revoked`        ENUM('Y','N') NOT NULL DEFAULT 'N' COMMENT '토큰 사용 중지 여부',
+    `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
+    `register_user`  VARCHAR(100)  NULL COMMENT '등록자',
+    `update_dtm`     TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+    `update_user`    VARCHAR(100)  NULL COMMENT '수정자'
+    );
+
+
 CREATE TABLE IF NOT EXISTS `t_board` (
     `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '게시글 ID',
     `user_id`        CHAR(36)      NULL COMMENT '작성자 ID',
@@ -65,21 +80,19 @@ CREATE TABLE IF NOT EXISTS `t_comment` (
     `update_user`    VARCHAR(100)  NULL COMMENT '수정자'
     );
 
-
-
 -- Foreign Keys
 
 ALTER TABLE `t_board`
-  ADD CONSTRAINT `fk_board_user`
-  FOREIGN KEY (`user_id`) REFERENCES `t_user`(`id`) ON DELETE SET NULL;
+    ADD CONSTRAINT `fk_board_user`
+    FOREIGN KEY (`user_id`) REFERENCES `t_user`(`id`) ON DELETE SET NULL;
 
 ALTER TABLE `t_comment`
-  ADD CONSTRAINT `fk_comment_board`
-  FOREIGN KEY (`board_id`) REFERENCES `t_board`(`id`) ON DELETE CASCADE;
+    ADD CONSTRAINT `fk_comment_board`
+    FOREIGN KEY (`board_id`) REFERENCES `t_board`(`id`) ON DELETE CASCADE;
 
 ALTER TABLE `t_comment`
-  ADD CONSTRAINT `fk_comment_user`
-  FOREIGN KEY (`user_id`) REFERENCES `t_user`(`id`) ON DELETE SET NULL;
+    ADD CONSTRAINT `fk_comment_user`
+    FOREIGN KEY (`user_id`) REFERENCES `t_user`(`id`) ON DELETE SET NULL;
 
 
 -- Views
