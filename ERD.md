@@ -82,6 +82,7 @@ erDiagram
     CHAR(36) post_id FK
   }
 
+  t_attachment_file ||--o| t_user : "Contains"
   t_user ||--o{ t_post : "Writes"
   t_user ||--o{ t_comment : "Writes"
   t_post ||--o{ t_comment : "Contains"
