@@ -6,10 +6,10 @@ USE `marsh`;
 
 -- Drop Tables and Views
 
-DROP VIEW IF EXISTS `v_board`;
+DROP VIEW IF EXISTS `v_post`;
 DROP VIEW IF EXISTS `v_comment`;
 DROP TABLE IF EXISTS `t_comment`;
-DROP TABLE IF EXISTS `t_board`;
+DROP TABLE IF EXISTS `t_post`;
 DROP TABLE IF EXISTS `t_refresh_token`;
 DROP TABLE IF EXISTS `t_admin`;
 DROP TABLE IF EXISTS `t_user`;
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `t_refresh_token` (
     );
 
 
-CREATE TABLE IF NOT EXISTS `t_board` (
+CREATE TABLE IF NOT EXISTS `t_post` (
     `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '게시글 ID',
     `user_id`        CHAR(36)      NULL COMMENT '작성자 ID',
     `title`          VARCHAR(150)  NULL COMMENT '제목',
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `t_board` (
 
 CREATE TABLE IF NOT EXISTS `t_comment` (
     `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '댓글 ID',
-    `board_id`       CHAR(36)      NOT NULL COMMENT '게시글 ID',
+    `post_id`       CHAR(36)      NOT NULL COMMENT '게시글 ID',
     `user_id`        CHAR(36)      NULL COMMENT '작성자 ID',
     `content`        TEXT          NULL COMMENT '내용',
     `deleted`        ENUM('Y', 'N') NOT NULL COMMENT '삭제 여부',
@@ -83,13 +83,13 @@ CREATE TABLE IF NOT EXISTS `t_comment` (
 
 -- Foreign Keys
 
-ALTER TABLE `t_board`
-    ADD CONSTRAINT `fk_board_user`
+ALTER TABLE `t_post`
+    ADD CONSTRAINT `fk_post_user`
     FOREIGN KEY (`user_id`) REFERENCES `t_user`(`id`) ON DELETE SET NULL;
 
 ALTER TABLE `t_comment`
-    ADD CONSTRAINT `fk_comment_board`
-    FOREIGN KEY (`board_id`) REFERENCES `t_board`(`id`) ON DELETE CASCADE;
+    ADD CONSTRAINT `fk_comment_post`
+    FOREIGN KEY (`post_id`) REFERENCES `t_post`(`id`) ON DELETE CASCADE;
 
 ALTER TABLE `t_comment`
     ADD CONSTRAINT `fk_comment_user`
@@ -98,7 +98,7 @@ ALTER TABLE `t_comment`
 
 -- Views
 
-CREATE VIEW `v_board` AS
+CREATE VIEW `v_post` AS
 SELECT
   b.`id`,
   b.`user_id`,
@@ -109,13 +109,13 @@ SELECT
   b.`register_user`,
   b.`update_dtm`,
   b.`update_user`
-FROM `t_board` b
+FROM `t_post` b
 JOIN `t_user` u ON b.`user_id` = u.`id`;
 
 CREATE VIEW `v_comment` AS
 SELECT
   c.`id`,
-  c.`board_id`,
+  c.`post_id`,
   c.`user_id`,
   u.`username`       AS `username`,
   c.`content`,
