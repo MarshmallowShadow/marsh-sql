@@ -10,6 +10,7 @@ DROP VIEW IF EXISTS `v_board`;
 DROP VIEW IF EXISTS `v_comment`;
 DROP TABLE IF EXISTS `t_comment`;
 DROP TABLE IF EXISTS `t_board`;
+DROP TABLE IF EXISTS `t_refresh_token`;
 DROP TABLE IF EXISTS `t_admin`;
 DROP TABLE IF EXISTS `t_user`;
 
