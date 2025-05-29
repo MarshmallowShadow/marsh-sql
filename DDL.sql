@@ -17,53 +17,54 @@ DROP TABLE IF EXISTS `t_user`;
 -- Create Tables
 
 CREATE TABLE IF NOT EXISTS `t_user` (
-  `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '',
-  `username`       VARCHAR(50)   NULL UNIQUE COMMENT '',
-  `email`          VARCHAR(100)  NULL UNIQUE COMMENT '',
-  `password`       VARCHAR(255)  NULL COMMENT '',
-  `deleted`        ENUM('Y', 'N') NOT NULL COMMENT '',
-  `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '',
-  `register_user`  VARCHAR(100)  NULL COMMENT '',
-  `update_dtm`     TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '',
-  `update_user`    VARCHAR(100)  NULL COMMENT ''
-);
+    `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '사용자 ID',
+    `username`       VARCHAR(50)   NULL UNIQUE COMMENT '사용자 이름',
+    `email`          VARCHAR(100)  NULL UNIQUE COMMENT '이메일',
+    `password`       VARCHAR(255)  NULL COMMENT '비밀번호',
+    `deleted`        ENUM('Y', 'N') NOT NULL COMMENT '삭제 여부',
+    `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
+    `register_user`  VARCHAR(100)  NULL COMMENT '등록자',
+    `update_dtm`     TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+    `update_user`    VARCHAR(100)  NULL COMMENT '수정자'
+    );
 
 CREATE TABLE IF NOT EXISTS `t_admin` (
-  `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '',
-  `username`       VARCHAR(50)   NULL UNIQUE COMMENT '',
-  `email`          VARCHAR(100)  NULL UNIQUE COMMENT '',
-  `password`       VARCHAR(255)  NULL COMMENT '',
-  `role`           ENUM('SUPER', 'MODERATOR') DEFAULT 'MODERATOR' COMMENT '',
-  `deleted`        ENUM('Y', 'N') NOT NULL COMMENT '',
-  `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '',
-  `register_user`  VARCHAR(100)  NULL COMMENT '',
-  `update_dtm`     TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '',
-  `update_user`    VARCHAR(100)  NULL COMMENT ''
-);
+    `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '관리자 ID',
+    `username`       VARCHAR(50)   NULL UNIQUE COMMENT '관리자 이름',
+    `email`          VARCHAR(100)  NULL UNIQUE COMMENT '이메일',
+    `password`       VARCHAR(255)  NULL COMMENT '비밀번호',
+    `role`           ENUM('SUPER', 'MODERATOR') DEFAULT 'MODERATOR' COMMENT '권한',
+    `deleted`        ENUM('Y', 'N') NOT NULL COMMENT '삭제 여부',
+    `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
+    `register_user`  VARCHAR(100)  NULL COMMENT '등록자',
+    `update_dtm`     TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+    `update_user`    VARCHAR(100)  NULL COMMENT '수정자'
+    );
 
 CREATE TABLE IF NOT EXISTS `t_board` (
-  `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '',
-  `user_id`        CHAR(36)      NULL COMMENT '',
-  `title`          VARCHAR(150)  NULL COMMENT '',
-  `content`        TEXT          NULL COMMENT '',
-  `deleted`        ENUM('Y', 'N') NOT NULL COMMENT '',
-  `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '',
-  `register_user`  VARCHAR(100)  NULL COMMENT '',
-  `update_dtm`     TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '',
-  `update_user`    VARCHAR(100)  NULL COMMENT ''
-);
+    `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '게시글 ID',
+    `user_id`        CHAR(36)      NULL COMMENT '작성자 ID',
+    `title`          VARCHAR(150)  NULL COMMENT '제목',
+    `content`        TEXT          NULL COMMENT '내용',
+    `deleted`        ENUM('Y', 'N') NOT NULL COMMENT '삭제 여부',
+    `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
+    `register_user`  VARCHAR(100)  NULL COMMENT '등록자',
+    `update_dtm`     TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+    `update_user`    VARCHAR(100)  NULL COMMENT '수정자'
+    );
 
 CREATE TABLE IF NOT EXISTS `t_comment` (
-  `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '',
-  `board_id`       CHAR(36)      NOT NULL COMMENT '',
-  `user_id`        CHAR(36)      NULL COMMENT '',
-  `content`        TEXT          NULL COMMENT '',
-  `deleted`        ENUM('Y', 'N') NOT NULL COMMENT '',
-  `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '',
-  `register_user`  VARCHAR(100)  NULL COMMENT '',
-  `update_dtm`     TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '',
-  `update_user`    VARCHAR(100)  NULL COMMENT ''
-);
+    `id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '댓글 ID',
+    `board_id`       CHAR(36)      NOT NULL COMMENT '게시글 ID',
+    `user_id`        CHAR(36)      NULL COMMENT '작성자 ID',
+    `content`        TEXT          NULL COMMENT '내용',
+    `deleted`        ENUM('Y', 'N') NOT NULL COMMENT '삭제 여부',
+    `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
+    `register_user`  VARCHAR(100)  NULL COMMENT '등록자',
+    `update_dtm`     TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+    `update_user`    VARCHAR(100)  NULL COMMENT '수정자'
+    );
+
 
 
 -- Foreign Keys
