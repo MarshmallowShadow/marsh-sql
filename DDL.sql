@@ -96,8 +96,9 @@ CREATE TABLE IF NOT EXISTS `t_comment` (
     ) COMMENT '댓글';
 
 CREATE TABLE IF NOT EXISTS `tr_post_attachment_file` (
-    `attachment_file_id`  CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '첨부파일 ID',
-    `post_id`             CHAR(36)      PRIMARY KEY DEFAULT (UUID()) COMMENT '게시글 ID',
+    `attachment_file_id`  CHAR(36)      DEFAULT (UUID()) COMMENT '첨부파일 ID',
+    `post_id`             CHAR(36)      DEFAULT (UUID()) COMMENT '게시글 ID',
+    PRIMARY KEY (`attachment_file_id`, `post_id`)
     ) COMMENT '첨부파일-게시글 관계';
 
 
