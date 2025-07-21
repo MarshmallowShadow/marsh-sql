@@ -12,7 +12,6 @@ DROP TABLE IF EXISTS `tr_post_attachment_file`;
 DROP TABLE IF EXISTS `t_comment`;
 DROP TABLE IF EXISTS `t_post`;
 DROP TABLE IF EXISTS `t_refresh_token`;
-DROP TABLE IF EXISTS `t_admin`;
 DROP TABLE IF EXISTS `t_user`;
 DROP TABLE IF EXISTS `t_attachment_file`;
 
