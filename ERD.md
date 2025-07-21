@@ -2,25 +2,13 @@
 erDiagram
 
   t_user {
-    CHAR(36) id PK "UUID"
-    CHAR(36) profile_picture_id "UUID"
+    BIGINT seq PK
+    BIGINT profile_picture_seq FK
+    CHAR(36) uuid "UUID"
     VARCHAR(50) username "Unique"
     VARCHAR(100) email "Unique"
     VARCHAR(255) password
-    ENUM deleted "Y | N"
-    TIMESTAMP register_dtm
-    VARCHAR(100) register_user
-    TIMESTAMP update_dtm
-    VARCHAR(100) update_user
-  }
-
-  t_admin {
-    CHAR(36) id PK "UUID"
-    VARCHAR(50) username "Unique"
-    VARCHAR(100) email "Unique"
-    VARCHAR(255) password
-    ENUM role "SUPER | MODERATOR"
-    ENUM deleted "Y | N"
+    TINYINT(1) deleted
     TIMESTAMP register_dtm
     VARCHAR(100) register_user
     TIMESTAMP update_dtm
@@ -28,12 +16,11 @@ erDiagram
   }
 
   t_refresh_token {
-    CHAR(36) id PK "UUID"
-    ENUM owner_type "USER | ADMIN"
-    CHAR(36) owner_id "UUID"
+    BIGINT seq PK
+    BIGINT user_seq FK
     VARCHAR(512) token
     TIMESTAMP expires_at
-    ENUM revoked "Y | N"
+    TINYINT(1) revoked
     TIMESTAMP register_dtm
     VARCHAR(100) register_user
     TIMESTAMP update_dtm
@@ -41,7 +28,8 @@ erDiagram
   }
 
   t_attachment_file {
-    CHAR(36) id PK "UUID"
+    BIGINT seq PK
+    CHAR(36) uuid "UUID"
     VARCHAR(255) stored_path
     VARCHAR(255) stored_name
     VARCHAR(255) origin_name
@@ -54,11 +42,12 @@ erDiagram
   }
 
   t_post {
-    CHAR(36) id PK "UUID"
-    CHAR(36) user_id FK
+    BIGINT seq PK
+    CHAR(36) uuid PK "UUID"
+    BIGINT user_seq FK
     VARCHAR(150) title
     TEXT content
-    ENUM deleted "Y | N"
+    TINYINT(1) deleted
     TIMESTAMP register_dtm
     VARCHAR(100) register_user
     TIMESTAMP update_dtm
@@ -66,11 +55,12 @@ erDiagram
   }
 
   t_comment {
-    CHAR(36) id PK "UUID"
-    CHAR(36) post_id FK
-    CHAR(36) user_id FK
+    BIGINT seq PK
+    CHAR(36) uuid PK "UUID"
+    BIGINT post_seq FK
+    BIGINT user_seq FK
     TEXT content
-    ENUM deleted "Y | N"
+    TINYINT(1) deleted
     TIMESTAMP register_dtm
     VARCHAR(100) register_user
     TIMESTAMP update_dtm
@@ -78,8 +68,8 @@ erDiagram
   }
 
   tr_post_attachment_file {
-    CHAR(36) attachment_file_id FK
-    CHAR(36) post_id FK
+    BIGINT attachment_file_seq FK
+    BIGINT post_seq FK
   }
 
   t_attachment_file ||--o| t_user : "Contains"
