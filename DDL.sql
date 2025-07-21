@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS `t_attachment_file` (
 
 CREATE TABLE IF NOT EXISTS `t_user` (
     `seq`             BIGINT      PRIMARY KEY DEFAULT (UUID()) COMMENT '사용자 식별번호',
-    `profile_picture_seq` CHAR(36)  NULL COMMENT '프로필 사진 첨부파일 식별번호',
     `uuid`         CHAR(36)         NOT NULL COMMENT '사용자 UUID',
+    `profile_picture_seq` CHAR(36)  NULL COMMENT '프로필 사진 첨부파일 식별번호',
     `username`       VARCHAR(50)   NULL UNIQUE COMMENT '사용자 이름',
     `email`          VARCHAR(100)  NULL UNIQUE COMMENT '이메일',
     `password`       VARCHAR(255)  NULL COMMENT '비밀번호',
@@ -61,8 +61,8 @@ CREATE TABLE IF NOT EXISTS `t_refresh_token` (
 
 CREATE TABLE IF NOT EXISTS `t_post` (
     `seq`             BIGINT      PRIMARY KEY DEFAULT (UUID()) COMMENT '게시글 식별번호',
-    `user_seq`        CHAR(36)      NULL COMMENT '작성자 식별번호',
     `uuid`           CHAR(36)      NOT NULL COMMENT '게시글 UUID',
+    `user_seq`        CHAR(36)      NULL COMMENT '작성자 식별번호',
     `title`          VARCHAR(150)  NULL COMMENT '제목',
     `content`        TEXT          NULL COMMENT '내용',
     `deleted`        TINYINT(1)    NULL DEFAULT 0 COMMENT '삭제 여부 (1: True, 2: False)',
@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS `t_post` (
 
 CREATE TABLE IF NOT EXISTS `t_comment` (
     `seq`             BIGINT      PRIMARY KEY DEFAULT (UUID()) COMMENT '댓글 식별번호',
+    `uuid`           CHAR(36)      NOT NULL COMMENT '댓글 UUID',
     `post_seq`        CHAR(36)      NOT NULL COMMENT '게시글 식별번호',
     `user_seq`        CHAR(36)      NULL COMMENT '작성자 식별번호',
-    `uuid`           CHAR(36)      NOT NULL COMMENT '댓글 UUID',
     `content`        TEXT          NULL COMMENT '내용',
     `deleted`        TINYINT(1)    NULL DEFAULT 0 COMMENT '삭제 여부 (1: True, 2: False)',
     `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',

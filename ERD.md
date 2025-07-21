@@ -3,8 +3,8 @@ erDiagram
 
   t_user {
     BIGINT seq PK
-    BIGINT profile_picture_seq FK
     CHAR(36) uuid "UUID"
+    BIGINT profile_picture_seq FK
     VARCHAR(50) username "Unique"
     VARCHAR(100) email "Unique"
     VARCHAR(255) password
