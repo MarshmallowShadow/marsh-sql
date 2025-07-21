@@ -75,6 +75,7 @@ erDiagram
   t_attachment_file ||--o| t_user : "Contains"
   t_user ||--o{ t_post : "Writes"
   t_user ||--o{ t_comment : "Writes"
+  t_user ||--o{ t_refresh_token : "Authorized By"
   t_post ||--o{ t_comment : "Contains"
   t_post ||--o{ tr_post_attachment_file : "Has"
   t_attachment_file ||--o{ tr_post_attachment_file : "Attached To"

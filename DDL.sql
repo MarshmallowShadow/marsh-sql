@@ -97,6 +97,9 @@ CREATE TABLE IF NOT EXISTS `tr_post_attachment_file` (
 ALTER TABLE `t_user`
     ADD FOREIGN KEY (`profile_picture_seq`) REFERENCES `t_attachment_file`(`seq`) ON DELETE SET NULL;
 
+ALTER TABLE `t_refresh_token`
+    ADD FOREIGN KEY (`user_seq`) REFERENCES `t_user`(`seq`) ON DELETE SET NULL;
+
 ALTER TABLE `t_post`
     ADD FOREIGN KEY (`user_seq`) REFERENCES `t_user`(`seq`) ON DELETE SET NULL;
 
@@ -109,7 +112,6 @@ ALTER TABLE `t_comment`
 ALTER TABLE `tr_post_attachment_file`
     ADD FOREIGN KEY (`attachment_file_seq`) REFERENCES `t_attachment_file`(`seq`) ON DELETE RESTRICT,
     ADD FOREIGN KEY (`post_seq`) REFERENCES `t_post`(`seq`) ON DELETE RESTRICT;
-
 
 -- Views
 
