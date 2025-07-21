@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `t_attachment_file`;
 -- Create Tables
 
 CREATE TABLE IF NOT EXISTS `t_attachment_file` (
-    `seq`           BIGINT      PRIMARY KEY DEFAULT (UUID()) COMMENT '첨부파일 식별번호',
+    `seq`           BIGINT UNSIGNED      PRIMARY KEY AUTO_INCREMENT COMMENT '첨부파일 식별번호',
     `uuid`         CHAR(36)         NOT NULL COMMENT '첨부파일 UUID',
     `stored_path`  VARCHAR(255)     NOT NULL COMMENT '저장 경로',
     `stored_name`  VARCHAR(255)     NOT NULL COMMENT '저장된 첨부파일명',
@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `t_attachment_file` (
     ) COMMENT '첨부파일';
 
 CREATE TABLE IF NOT EXISTS `t_user` (
-    `seq`             BIGINT      PRIMARY KEY DEFAULT (UUID()) COMMENT '사용자 식별번호',
-    `uuid`         CHAR(36)         NOT NULL COMMENT '사용자 UUID',
-    `profile_picture_seq` BIGINT  NULL COMMENT '프로필 사진 첨부파일 식별번호',
+    `seq`             BIGINT UNSIGNED      PRIMARY KEY AUTO_INCREMENT COMMENT '사용자 식별번호',
+    `uuid`           CHAR(36)         NOT NULL COMMENT '사용자 UUID',
+    `profile_picture_seq` BIGINT UNSIGNED  NULL COMMENT '프로필 사진 첨부파일 식별번호',
     `username`       VARCHAR(50)   NULL UNIQUE COMMENT '사용자 이름',
     `email`          VARCHAR(100)  NULL UNIQUE COMMENT '이메일',
     `password`       VARCHAR(255)  NULL COMMENT '비밀번호',
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS `t_user` (
     ) COMMENT '사용자';
 
 CREATE TABLE IF NOT EXISTS `t_refresh_token` (
-    `seq`             BIGINT      PRIMARY KEY DEFAULT (UUID()) COMMENT '토큰 고유 식별번호',
-    `user_seq`       BIGINT      NOT NULL COMMENT '토큰 소유자 식별번호',
+    `seq`             BIGINT UNSIGNED      PRIMARY KEY AUTO_INCREMENT COMMENT '토큰 고유 식별번호',
+    `user_seq`       BIGINT UNSIGNED        NOT NULL COMMENT '토큰 소유자 식별번호',
     `token`          VARCHAR(512)  NOT NULL COMMENT '리프레시 토큰 값',
     `expires_at`     TIMESTAMP     NOT NULL COMMENT '토큰 만료 시간',
     `revoked`        TINYINT(1)    NULL DEFAULT 0 COMMENT '토큰 사용 중지 여부 (1: True, 2: False)',
@@ -60,9 +60,9 @@ CREATE TABLE IF NOT EXISTS `t_refresh_token` (
     ) COMMENT '리프레시 토큰';
 
 CREATE TABLE IF NOT EXISTS `t_post` (
-    `seq`             BIGINT      PRIMARY KEY DEFAULT (UUID()) COMMENT '게시글 식별번호',
+    `seq`             BIGINT UNSIGNED      PRIMARY KEY AUTO_INCREMENT COMMENT '게시글 식별번호',
     `uuid`           CHAR(36)      NOT NULL COMMENT '게시글 UUID',
-    `user_seq`        BIGINT      NULL COMMENT '작성자 식별번호',
+    `user_seq`        BIGINT UNSIGNED      NULL COMMENT '작성자 식별번호',
     `title`          VARCHAR(150)  NULL COMMENT '제목',
     `content`        TEXT          NULL COMMENT '내용',
     `deleted`        TINYINT(1)    NULL DEFAULT 0 COMMENT '삭제 여부 (1: True, 2: False)',
@@ -73,10 +73,10 @@ CREATE TABLE IF NOT EXISTS `t_post` (
     ) COMMENT '게시글';
 
 CREATE TABLE IF NOT EXISTS `t_comment` (
-    `seq`             BIGINT      PRIMARY KEY DEFAULT (UUID()) COMMENT '댓글 식별번호',
+    `seq`             BIGINT UNSIGNED      PRIMARY KEY AUTO_INCREMENT COMMENT '댓글 식별번호',
     `uuid`           CHAR(36)      NOT NULL COMMENT '댓글 UUID',
-    `post_seq`        BIGINT      NOT NULL COMMENT '게시글 식별번호',
-    `user_seq`        BIGINT      NULL COMMENT '작성자 식별번호',
+    `post_seq`        BIGINT UNSIGNED      NOT NULL COMMENT '게시글 식별번호',
+    `user_seq`        BIGINT UNSIGNED      NULL COMMENT '작성자 식별번호',
     `content`        TEXT          NULL COMMENT '내용',
     `deleted`        TINYINT(1)    NULL DEFAULT 0 COMMENT '삭제 여부 (1: True, 2: False)',
     `register_dtm`   TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
@@ -86,8 +86,8 @@ CREATE TABLE IF NOT EXISTS `t_comment` (
     ) COMMENT '댓글';
 
 CREATE TABLE IF NOT EXISTS `tr_post_attachment_file` (
-    `attachment_file_seq`  BIGINT      DEFAULT (UUID()) COMMENT '첨부파일 식별번호',
-    `post_seq`             BIGINT      DEFAULT (UUID()) COMMENT '게시글 식별번호',
+    `attachment_file_seq`  BIGINT UNSIGNED      COMMENT '첨부파일 식별번호',
+    `post_seq`             BIGINT UNSIGNED      COMMENT '게시글 식별번호',
     PRIMARY KEY (`attachment_file_seq`, `post_seq`)
     ) COMMENT '첨부파일-게시글 관계';
 
@@ -98,7 +98,7 @@ ALTER TABLE `t_user`
     ADD FOREIGN KEY (`profile_picture_seq`) REFERENCES `t_attachment_file`(`seq`) ON DELETE SET NULL;
 
 ALTER TABLE `t_refresh_token`
-    ADD FOREIGN KEY (`user_seq`) REFERENCES `t_user`(`seq`) ON DELETE SET NULL;
+    ADD FOREIGN KEY (`user_seq`) REFERENCES `t_user`(`seq`) ON DELETE CASCADE;
 
 ALTER TABLE `t_post`
     ADD FOREIGN KEY (`user_seq`) REFERENCES `t_user`(`seq`) ON DELETE SET NULL;
@@ -133,7 +133,7 @@ CREATE VIEW `v_comment` AS
 SELECT
   c.`uuid`,
   c.`post_seq`,
-  u.`uuid`,          AS `user_uuid`,
+  u.`uuid`           AS `user_uuid`,
   u.`username`       AS `username`,
   c.`content`,
   c.`register_dtm`,
